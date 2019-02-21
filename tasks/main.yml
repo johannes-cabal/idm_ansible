@@ -1,2 +1,21 @@
 ---
 # tasks file for idm_ansible
+- name: idm-ansible | main | Including pre-req tasks
+  include: prereqs.yml
+  tags:
+      - prereqs
+      - idm
+      - ipa
+
+- name: idm-ansible | main | Including firewall tasks
+  include: firewall.yml
+  tags:
+      - prereqs
+      - firewall
+
+# - name: idm-ansible | main | Including installer
+#   include: install.yml
+#   tags:
+#     - install
+#     - idm
+#     - ipa

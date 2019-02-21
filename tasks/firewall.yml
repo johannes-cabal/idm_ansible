@@ -1,0 +1,27 @@
+---
+- name: idm_ansible | firewall | Install firewalld
+  yum:
+    name: firewalld
+    state: latest
+  ignore_errors: yes
+  tags:
+    - firewalld
+
+- name: idm_ansible | firewall | Enable and Start firewalld
+  service:
+    name: firewalld
+    enabled: yes
+    state: started
+  tags:
+    - firewalld
+
+- name: idm_ansible | firewall | Enable service in firewall
+  firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  with_items:
+    - "{{ idm_services }}"
+  notify: firewalld_reload
+  when: idm_services is defined

@@ -1,0 +1,45 @@
+---
+- name: idm_ansible | prereqs | register to RHN
+  redhat_subscription:
+    state: present
+    username: "{{ vault_rhn_user }}"
+    password: "{{ vault_rhn_pwd }}"
+    pool_ids: "{{ rhn_pool_name }}"
+  when: rhn_registration
+
+- name: idm_ansible | prereqs | set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: idm_ansible | prereqs | Add host entry
+  lineinfile:
+    dest: /etc/hosts
+    regexp: " {{ ansible_hostname }} "
+    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: idm_ansible | prereqs | Disable all repositories
+  command: subscription-manager repos --disable "*"
+  changed_when: false
+
+- name: idm_ansible | prereqs | Enable required repos
+  redhat_repos:
+    repos: "{{ idm_repositories }}"
+    state:  present
+
+- name: idm_ansible | prereqs | Remove cloud-init
+  yum:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - cloud-init
+
+- name: idm_ansible | prereqs | Install common packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - "{{ idm_packages }}"
+    - "{{ common_packages }}"

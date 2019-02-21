@@ -1,2 +1,4 @@
 ---
 # handlers file for idm_ansible
+- name: firewalld_reload
+  command: firewall-cmd --reload

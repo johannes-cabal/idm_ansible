@@ -1,2 +1,45 @@
 ---
 # defaults file for idm_ansible
+
+# Vars listing:
+# vault_rhn_user
+# vault_rhn_password
+# rhn_pool_name
+rhn_registration: false
+# rhn_pool_name
+
+idm_fqdn: "{{ inventory_hostname }}"
+idm_admin_password: redhatredhat
+idm_password: redhatredhat
+idm_domain: "{{ idm_fqdn }}"
+idm_realm: "{{ idm_fqdn | upper }}"
+
+idm_services:
+  - freeipa-ldap
+  - freeipa-ldaps
+  - dns
+  - https
+  - ldaps
+  - kerberos
+  - kpasswd
+  - ntp
+
+idm_repositories:
+  - rhel-7-server-rpms
+  - rhel-7-server-optional-rpms
+
+idm_packages:
+  - ipa-server
+  - bind
+  - bind-dyndb-ldap
+
+common_packages:
+  - wget
+  - net-tools
+  - bash-completion
+  - screen
+  - tmux
+  - vim-enhanced
+  - vim-minimal
+  - chrony
+  - lvm2

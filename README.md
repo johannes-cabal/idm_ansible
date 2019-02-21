@@ -1,38 +1,57 @@
-Role Name
-=========
+IDM_ANSIBLE
+================
 
-A brief description of the role goes here.
+**This role is still under active development.**
+
+Install and configure Red Hat IdM on a RHEL 7 system.
+Configure a RHEL 7 system be be DISA STIG compliant. CAT I findings will be correceted and audited by default. CAT II and II findigs can be enabled by setting the appropriate variables to `yes`.
+
+This role is based on [Red Hat Enterprise Linux 7 Product Documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/linux_domain_identity_authentication_and_policy_guide/p.install).
+
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+RHEL 7. Other versions are not supported.
 
 Role Variables
 --------------
+# Vars listing:
+# vault_rhn_user
+# vault_rhn_password
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+rhn_registration: false
+
+idm_repositories:
+  - rhel-7-server-extras-rpms
+  - rhel-7-server-optional-rpms
+| Name              | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `rhn_registration` | `false` | Subscribe to RHN - requires a Pool ID|
+| `rhn_pool_name` | `no` | Desired pool ID to attach machine to when subscribing to RHN |
+| `vault_rhn_user` | `no` | RHN user name - used for RHN registration (store in vault) |
+| `vault_rhn_password` | `no` | RHN user password - user for RHN registration (store in vault) |
+
+<!-- idm_fqdn
+idm_admin_password
+idm_password
+idm_domain
+idm_realm
+idm_services
+idm_repositories
+idm_packages
+common_packages -->
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
 License
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+MIT
